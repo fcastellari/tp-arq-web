@@ -24,17 +24,17 @@
 #### /items/:id/stock
 
 + `GET` Obtener stock de un item.  `404`
-+ `PUT` Actualizar stock de un item. `404` `401` `400`
++ `PATCH` Actualizar stock de un item. `404` `401` `400`
 
 #### /items/:id/precioCompra
 
 + `GET` Obtener precio de compra de un item. `404` 
-+ `PUT` Actualizar precio de compra un item. `404` `401` `400`
++ `PATCH` Actualizar precio de compra un item. `404` `401` `400`
 
 #### /items/:id/precioVenta
 
 + `GET` Obtener precio de venta un item. `404`
-+ `PUT` Actualizar precio de venta un item. `404` `401` `400`
++ `PATCH` Actualizar precio de venta un item. `404` `401` `400`
 
 
 ### Ordenes
