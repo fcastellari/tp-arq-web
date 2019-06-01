@@ -1,0 +1,224 @@
+openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/fcastellari/MDWServicessss/1.0.0
+info:
+  description: Esta es la API de servicios de MDW 
+  version: "1.0.0"
+  title: Consulta de Integraciones
+  contact:
+    email: federico.castellari@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: admins
+    description: Operaciones segurizadas sólo para admins
+  - name: soporte
+    description: Operaciones para los técnicos de soporte de plataforma
+paths:
+  /domains:
+    get:
+      tags:
+        - domains
+      summary: searches domains
+      operationId: searchDomain
+      description: |
+        By passing in the appropriate options, you can search for
+        available domains in the system
+      parameters:
+        - in: query
+          name: searchString
+          description: pass an optional search string for looking up inventory
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: skip
+          description: number of records to skip for pagination
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - admins
+      summary: adds an inventory item
+      operationId: addInventory
+      description: Adds an item to the system
+      responses:
+        '201':
+          description: dominio registrado
+        '400':
+          description: 'objeto invalido'
+        '409':
+          description: ya existe el dominio
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Domain'
+        description: Domain a agregar
+components:
+  schemas:
+    Service:
+      type: object
+      required:
+        - id
+        - integrationId
+        - project
+        - domain
+        - product
+        - severity
+        - serviceName
+        - country
+        - businessUnit
+        - sourceSystem
+        - sourceObjectType
+        - targetSystem
+        - targetObjectType
+        - processOwner
+        - status
+
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        integrationId:
+          type: string
+          example: INT1234
+        project:
+          type: string
+          example: VUC
+        product:
+          type: string
+          description: Tecnologia donde esta desarrollada la INT
+          enum:
+          - Biztalk
+          - ODI
+          - OSB
+        serviceName:
+          type: string
+          description: Service que se invoca
+          example: AltaModClientesSiebel
+        domain:
+          $ref: '#/components/schemas/Domain'
+        severity:
+          type: string
+          description: Criticidad de la Integracion
+          enum:
+          - Alta
+          - Media
+          - Baja
+        description:
+          type: string
+          description: Descripción del servicio
+          example: Alta Modificacion Clientes en SIEBEL 
+        country:
+          type: string
+          description: País
+          enum:
+          - AR
+          - BR
+          - CL
+          - PE
+          - CENCO
+        businessUnit:
+          type: string
+          description: Unidad de Negocio
+          enum:
+          - BO
+          - CORP
+          - MdH
+          - SM
+          - TxD
+        sourceSystem:
+          type: string
+          description: Sistema origen de la peticion
+          example: Orquestador
+        sourceObjectType:
+          description: Tipo de objeto de la peticion
+          type: string
+          example: SOAP
+        targetSystem:
+          type: string
+          description: Sistema destino de la peticion
+          example: SIEBEL
+        targetObjectType:
+          type: string
+          description: Tipo de objeto destino de la peticion
+          example: SOAP
+        schedule:
+          type: string
+          description: Schedule del servicio
+          example: Diariamente cada 15 minutos.
+        processOwner:
+          $ref: '#/components/schemas/Owner'
+        comments: 
+          type: string
+          description: Some comments
+        status:
+          type: string
+          description: Service status
+          enum:
+          - activo
+          - inactivo
+    Domain:
+      type: object
+      required:
+        - name
+        - adminConsole
+      properties:
+        name:
+          type: string
+          example: osbp_ar_domain
+        adminConsole:
+          type: string
+          format: url
+          example: 'g100603sv123:7301/console'
+      
+    Owner:
+      type: object
+      required:
+        - name
+        - userName
+        - mail
+      properties:
+        
+        name:
+          type: string
+          description: Nombre y apellido del responsable funcional
+          example: Juan Perez
+        userName:
+         type: string
+         description: AD username
+         example: FeCastel
+        mail:
+          type: string
+          format: mail
+          description: Mail de contacto
+          example: juan.perez@empresa.com
+        phone:
+          type: string
+          example: +5491112345678
