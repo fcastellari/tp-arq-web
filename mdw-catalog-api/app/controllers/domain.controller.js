@@ -6,10 +6,7 @@ exports.create = (req, res) => {
         return res.status(400).send({
             message: "Domain content can not be empty"
         });
-    }
-
-    //Check if domainName already exists
-    
+    }    
 
     // Create a Domain
     const domain = new Domain({
@@ -50,9 +47,9 @@ exports.findAll = (req, res) => {
         })
 };
 
-// Find a single Domain with domainId
+// Find a single Domain with domainName
 exports.findOne = (req, res) => {
-    Domain.findOne({ domainName: req.body.domainName })
+    Domain.findOne({ domainName: req.params.domainName })
         .then(domain => {
             if (!domain) {
                 return res.status(404).send({

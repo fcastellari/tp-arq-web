@@ -34,6 +34,7 @@ app.get('/', (req, res, next) => {
 
 // requiere Domains routes
 require ('./app/routes/domain.routes.js') (app);
+require ('./app/routes/owner.routes') (app);
 //app.use('/mdw/domains', domainRoutes)
 // listen for requests
 app.listen(3000, () => {

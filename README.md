@@ -9,20 +9,24 @@
 
 # mdw-catalog-api 
 
-## Models
+## URIs
 
-### Dominio
+### Domain
 
-#### /dominios
+#### /domains
 
 + `GET` Listar todos los dominios.
 + `POST` Dar de alta un nuevo item. `409` `401` `400` 
 
-#### /dominios/{id}
+#### /domains/:id
 
 + `GET` Listar un dominio. `404`
 + `PUT` Actualizar un dominio. `404` `401`
 
+#### /domains/:domainName
+
++ `GET` Listar un dominio. `404`
++ `PUT` Actualizar un dominio. `404` `401`
 
 #### /items/{id}/estado
 
@@ -44,9 +48,8 @@
 
 
 
-## Recursos
+### Models
 
-+ Dominio
-+ Servicio
-+ Tag
-+ Usuario
++ Domain
++ Service
++ Owner
