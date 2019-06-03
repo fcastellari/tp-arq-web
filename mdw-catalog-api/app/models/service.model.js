@@ -43,7 +43,7 @@ const ServiceSchema = mongoose.Schema({
     schedule: String,
     owner: {type: mongoose.Schema.Types.ObjectId, ref: 'Owner', required:true},
     comments: String,
-    isActive: Boolean || true
+    isActive: {type: Boolean, default: true}
 }, {
     timestamps: true
 });

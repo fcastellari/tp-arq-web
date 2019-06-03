@@ -24,7 +24,7 @@ exports.create = (req, res) => {
         schedule: req.body.schedule,
         owner: req.body.owner,
         comments: req.body.comments,
-        isActive: req.body.isActive
+        isActive: req.body.isActive || true
     });
     // Save Service in db
     service.save()
@@ -54,7 +54,7 @@ exports.findAll = (req, res) => {
         })
         .populate({
             path: 'owner',
-            select: '-_id username name email phoneNumber'
+            select: '-_id username name email phoneNumber isActive'
         })
         .then(services => {
             res.send(services)
@@ -74,7 +74,7 @@ exports.findOne = (req, res) => {
         })
         .populate({
             path: 'owner',
-            select: '-_id username name email phoneNumber'
+            select: '-_id username name email phoneNumber isActive'
         })
         .then(service => {
             if (!service) {
@@ -93,4 +93,43 @@ exports.findOne = (req, res) => {
                 message: "Error retrieving Service with id " + req.params.serviceId
             });
         });
+};
+
+// Update a Service
+exports.update = (req, res) => {
+    if (!req.body) {
+        return res.status(400).send({
+            message: "Service cannot be empty"
+        })
+    }
+    Service.findByIdAndUpdate(req.params.serviceId,
+        { $set: req.body },
+        { new: true })
+        .populate({
+            path: 'domain',
+            select: '-_id name adminConsole isActive'
+        })
+        .populate({
+            path: 'owner',
+            select: '-_id username name email phoneNumber isActive'
+        })
+        .then(service => {
+            if (!service) {
+                return res.status(404).send({
+                    message: "Service not found with id " + req.params.serviceId
+                });
+            }
+            res.send(service);
+        }).catch(err => {
+            if (err.kind === 'ObjectId') {
+                return res.status(404).send({
+                    message: "Service not found with id " + req.params.serviceId
+                });
+            }
+            return res.status(500).send({
+                message: "Error updating Service with id " + req.params.serviceId
+            });
+        });
+
+
 };

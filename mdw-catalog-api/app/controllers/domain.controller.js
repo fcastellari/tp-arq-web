@@ -12,7 +12,7 @@ exports.create = (req, res) => {
     const domain = new Domain({
         name: req.body.name,
         adminConsole: req.body.adminConsole,
-        isActive: req.body.status || true
+        isActive: req.body.isActive || true
     });
 
     // Save Domain in db
@@ -77,11 +77,9 @@ exports.update = (req, res) => {
     }
 
     //Find Domain and update it
-    Domain.findByIdAndUpdate(req.params.domainId, {
-        name: req.body.name,
-        adminConsole: req.body.adminConsole,
-        isActive: req.body.isActive
-    }, { new: true })
+    Domain.findByIdAndUpdate(req.params.domainId, 
+        { $set: req.body },
+        { new: true })
         .then(domain => {
             if (!domain) {
                 return res.status(404).send({

@@ -13,7 +13,8 @@ exports.create = (req, res) => {
         username: req.body.username,
         name: req.body.name,
         email: req.body.email,
-        phoneNumber: req.body.phoneNumber
+        phoneNumber: req.body.phoneNumber,
+        isActive: req.body.isActive || true
     });
 
     // Save Owner in db
@@ -21,7 +22,6 @@ exports.create = (req, res) => {
         .then(data => {
             res.send(data);
         }).catch(err => {
-            console.log("Error: " + err.status + " | " + err)
             //Check validation errors
             if (err.name === 'ValidationError') {
                 res.status(400).send({
@@ -80,12 +80,9 @@ exports.update = (req, res) => {
     }
 
     //Find Owner and update it
-    Owner.findByIdAndUpdate(req.params.ownerId, {
-        username: req.params.username,
-        name: req.body.name,
-        mail: req.body.mail,
-        phoneNumber: req.body.phoneNumber
-    }, { new: true })
+    Owner.findByIdAndUpdate(req.params.ownerId,
+        { $set: req.body },
+        { new: true })
         .then(owner => {
             if (!owner) {
                 return res.status(404).send({

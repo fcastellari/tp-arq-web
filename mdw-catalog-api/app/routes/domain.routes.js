@@ -12,7 +12,7 @@ module.exports = app => {
     app.get('/domains/:name', domains.findOne);
 
     // Update a Domain with domainId
-    app.put('/domains/:domainId', domains.update);
+    app.patch('/domains/:domainId', domains.update);
 
     // Delete a Domain with domainId
     app.delete('/domains/:domainId', domains.delete);

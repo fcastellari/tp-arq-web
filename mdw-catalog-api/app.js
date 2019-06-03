@@ -20,7 +20,8 @@ mongoose.Promise = global.Promise;
 
 // connecting to db
 mongoose.connect(dbConfig.url, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useFindAndModify: false
 }).then(() => {
     console.log("Succesfully connected to the database");
 }).catch(err => {

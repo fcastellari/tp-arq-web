@@ -13,7 +13,7 @@ module.exports = app => {
     app.get('/owners/:ownerId', owners.findOne);
 
     //Update a Owner with ownerId
-    app.put('/owners/:ownerId', owners.update);
+    app.patch('/owners/:ownerId', owners.update);
 
     //Delete a Owner with ownerId
     app.delete('/owners/:ownerId', owners.delete);
