@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const domainRoutes = require('./app/routes/domain.routes');
-
+const serviceRoutes = require('./app/routes/service.routes');
+const ownerRoutes = require('./app/routes/owner.routes');
 // create express app
 const app = express();
 
@@ -32,8 +33,10 @@ app.get('/', (req, res, next) => {
     res.json({ "message": "Bienvenido - Integracion Regional" });
 });
 
-// requiere Domains routes
-require ('./app/routes/domain.routes.js') (app);
+
+//Routes
+require ('./app/routes/service.routes') (app);
+require ('./app/routes/domain.routes') (app);
 require ('./app/routes/owner.routes') (app);
 //app.use('/mdw/domains', domainRoutes)
 // listen for requests

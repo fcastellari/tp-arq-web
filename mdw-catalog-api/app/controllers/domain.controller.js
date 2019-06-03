@@ -10,11 +10,9 @@ exports.create = (req, res) => {
 
     // Create a Domain
     const domain = new Domain({
-        domainName: req.body.domainName,
-        country: req.body.country,
-        type: req.body.type,
+        name: req.body.name,
         adminConsole: req.body.adminConsole,
-        status: req.body.status || true
+        isActive: req.body.status || true
     });
 
     // Save Domain in db
@@ -47,13 +45,13 @@ exports.findAll = (req, res) => {
         })
 };
 
-// Find a single Domain with domainName
+// Find a single Domain with domainId
 exports.findOne = (req, res) => {
-    Domain.findOne({ domainName: req.params.domainName })
+    Domain.findOne({ domainName: req.params.domainId })
         .then(domain => {
             if (!domain) {
                 return res.status(404).send({
-                    message: "Domain not found with id " + req.params.domainName
+                    message: "Domain not found with id " + req.params.domainId
                 });
             }
             res.send(domain);
@@ -80,11 +78,9 @@ exports.update = (req, res) => {
 
     //Find Domain and update it
     Domain.findByIdAndUpdate(req.params.domainId, {
-        domainName: req.body.domainName,
-        country: req.body.country,
-        type: req.body.type,
+        name: req.body.name,
         adminConsole: req.body.adminConsole,
-        status: req.body.status
+        isActive: req.body.isActive
     }, { new: true })
         .then(domain => {
             if (!domain) {

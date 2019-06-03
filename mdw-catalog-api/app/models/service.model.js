@@ -1,13 +1,15 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
-const Domain = require('../models/domain.model');
-const Owner = require('../models/owner.model');
+const Domain = require('./domain.model');
+const Owner = require('./owner.model');
 
 const Countries = Object.freeze({
     ARGENTINA: 'AR',
+    BRASIL: 'BR',
     CHILE: 'CL',
-    REGIONAL: 'RE',
-    PERU: 'PE'
+    COLOMBIA:  'CO',
+    PERU: 'PE',
+    REGIONAL: 'RE'
 });
 
 const Types = Object.freeze({
@@ -26,11 +28,11 @@ const BusinessUnit = Object.freeze({
 
 
 const ServiceSchema = mongoose.Schema({
-    serviceId: {type: String, required: true, unique: true, uppercase: true},
+    serviceCode: {type: String, required: true, unique: true, uppercase: true},
     project: {type: String, required:true},
     type: {type: String, required:true, enum: Object.values(Types)},
     serviceName: {type: String, required: true},
-    domain: {type: Schema.Types.ObjectId, ref: 'Domain'},
+    domain: {type: mongoose.Schema.Types.ObjectId, ref: 'Domain', required: true},
     description: {type: String, required: true},
     country: {type: String, required: true, enum: Object.values(Countries)},
     businessUnit: {type: String, required: true, enum: Object.values(BusinessUnit)},
@@ -39,11 +41,17 @@ const ServiceSchema = mongoose.Schema({
     targetSystem: {type: String, required: true},
     targetObjectType: {type: String, required: true},
     schedule: String,
-    owner: {type: Schema.Types.ObjectId, ref: 'Owner'},
+    owner: {type: mongoose.Schema.Types.ObjectId, ref: 'Owner', required:true},
     comments: String,
     isActive: Boolean || true
 }, {
     timestamps: true
 });
+
+Object.assign(ServiceSchema.statics, {
+    Countries, Types, BusinessUnit
+});
+
+ServiceSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('Service', ServiceSchema);

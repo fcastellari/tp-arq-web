@@ -46,7 +46,7 @@ exports.findAll = (req, res) => {
         })
 };
 
-// Find a single Owner with Owner username
+// Find a single Owner with Owner id
 exports.findOne = (req, res) => {
     Owner.findById(req.params.ownerId)
         .then(owner => {
