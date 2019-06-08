@@ -14,7 +14,7 @@ module.exports = app => {
     // Update a Service with serviceId
     app.patch('/services/:serviceId', services.update);
 
-    // Delete a Owner with serviceId
+    // Delete a Service with serviceId
     //app.delete('/services/:serviceId', services.delete);
 
 }
