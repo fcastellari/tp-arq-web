@@ -1,6 +1,6 @@
 const Domain = require('../models/domain.model.js');
 // Create and Save a new Domain
-exports.create = (req, res) => {
+exports.create = (req, res, next) => {
     // Validate request
     if (!req.body) {
         return res.status(400).send({

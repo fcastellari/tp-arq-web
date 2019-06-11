@@ -3,16 +3,16 @@ module.exports = app => {
     const services = require('../controllers/service.controller')
 
     // Create new Service
-    app.post('/services', services.create);
+    app.post('/', services.create);
 
     // Retrieve all Services
-    app.get('/services', services.findAll);
+    app.get('/', services.findAll);
 
     // Retrieve a Service with serviceId
-    app.get('/services/:serviceId', services.findOne);
+    app.get('/:serviceId', services.findOne);
 
     // Update a Service with serviceId
-    app.patch('/services/:serviceId', services.update);
+    app.patch('/:serviceId', services.update);
 
     // Delete a Service with serviceId
     //app.delete('/services/:serviceId', services.delete);

@@ -1,7 +1,7 @@
 const Owner = require('../models/owner.model');
-
+const { body } = require('express-validator/check');
 // Create and Save a new Owner
-exports.create = (req, res) => {
+exports.create = (req, res, next) => {
     // Validate request
     if (!req.body) {
         return res.status(400).send({
@@ -35,7 +35,7 @@ exports.create = (req, res) => {
 };
 
 // Retrieve and return all owners from db
-exports.findAll = (req, res) => {
+exports.findAll = (req, res,next) => {
     Owner.find()
         .then(owners => {
             res.send(owners);
@@ -47,7 +47,7 @@ exports.findAll = (req, res) => {
 };
 
 // Find a single Owner with Owner id
-exports.findOne = (req, res) => {
+exports.findOne = (req, res,next) => {
     Owner.findById(req.params.ownerId)
         .then(owner => {
             if (!owner) {
@@ -71,7 +71,7 @@ exports.findOne = (req, res) => {
 // 
 
 // Update a Owner with provided username
-exports.update = (req, res) => {
+exports.update = (req, res, next) => {
     // Validate request 
     if (!req.body) {
         return res.status(400).send({
@@ -103,7 +103,7 @@ exports.update = (req, res) => {
 };
 
 // Delete a Owner with provided domainId
-exports.delete = (req, res) => {
+exports.delete = (req, res, next) => {
     Owner.findByIdAndRemove(req.params.ownerId)
         .then(owner => {
             if (!owner) {
@@ -122,5 +122,18 @@ exports.delete = (req, res) => {
                 message: "Could not delete owner with id " + req.params.ownerId
             });
         });
-
 };
+
+exports.validateOwner = (method) => {
+    switch (method) {
+        case 'create': {
+            return [
+                body('username', "Username doesn't exists").exists().trim().escape(),
+                body('name', 'Name must be completed').exists().escape(),
+                body('email', 'Invalid email').isEmail().exists().normalizeEmail(),
+                body('isActive').optional().isIn([true, false])
+            ]
+        }
+    }
+
+}

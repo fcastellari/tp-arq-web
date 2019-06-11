@@ -3,18 +3,18 @@ module.exports = app => {
 
 
     // create a new Domain
-    app.post('/domains', domains.create);
+    app.post('/', domains.create);
     
     // Retrieve all Domains
-    app.get('/domains', domains.findAll);
+    app.get('/', domains.findAll);
 
     // Retrieve a Domain with domainId
-    app.get('/domains/:name', domains.findOne);
+    app.get('/:name', domains.findOne);
 
     // Update a Domain with domainId
-    app.patch('/domains/:domainId', domains.update);
+    app.patch('/:domainId', domains.update);
 
     // Delete a Domain with domainId
-    app.delete('/domains/:domainId', domains.delete);
+    app.delete('/:domainId', domains.delete);
 
 }

@@ -1,6 +1,6 @@
 const Service = require('../models/service.model');
 // Create and Save a new Service
-exports.create = (req, res) => {
+exports.create = (req, res, next) => {
     // Validate request
     if (!req.body) {
         return res.status(400).send({

@@ -1,24 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const domainRoutes = require('./app/routes/domain.routes');
+const helmet = require('helmet');
+const morgan = require('morgan');
 const serviceRoutes = require('./app/routes/service.routes');
 const ownerRoutes = require('./app/routes/owner.routes');
 // create express app
 const app = express();
+app.use(helmet());
+const router = express.Router();
 
-// parse requests of content-type - application/x-www-form-urlencoded
-//app.use(bodyParser.urlencoded({ extended: true }))
-
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
-
-// db config
+// DB
+// Config
 const dbConfig = require('./config/db/database.config.js');
 const mongoose = require('mongoose');
-
 mongoose.Promise = global.Promise;
 
-// connecting to db
+// Connection
 mongoose.connect(dbConfig.url, {
     useNewUrlParser: true,
     useFindAndModify: false
@@ -29,17 +26,19 @@ mongoose.connect(dbConfig.url, {
     process.exit();
 });
 
+app.use(bodyParser.json());
+
+app.use(morgan('dev'));
+app.use(router);
+
 //define a simple route
 app.get('/', (req, res, next) => {
     res.json({ "message": "Bienvenido - Integracion Regional" });
 });
 
-
 //Routes
-require ('./app/routes/service.routes') (app);
-require ('./app/routes/domain.routes') (app);
-require ('./app/routes/owner.routes') (app);
-//app.use('/mdw/domains', domainRoutes)
+app.use('/mdw', require('./app/routes/index.routes'));
+
 // listen for requests
 app.listen(3000, () => {
     console.log("Server is listening on port 3000");
