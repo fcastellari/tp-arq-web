@@ -1,4 +1,3 @@
-
 const router = require('express').Router();
 const owners = require('../controllers/owner.controller');
 

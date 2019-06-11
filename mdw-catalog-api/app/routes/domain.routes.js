@@ -1,20 +1,20 @@
-module.exports = app => {
-    const domains = require('../controllers/domain.controller.js');
+const router = require('express').Router();
+const domains = require('../controllers/domain.controller.js');
 
 
-    // create a new Domain
-    app.post('/', domains.create);
-    
-    // Retrieve all Domains
-    app.get('/', domains.findAll);
+// create a new Domain
+router.post('/', domains.create);
 
-    // Retrieve a Domain with domainId
-    app.get('/:name', domains.findOne);
+// Retrieve all Domains
+router.get('/', domains.findAll);
 
-    // Update a Domain with domainId
-    app.patch('/:domainId', domains.update);
+// Retrieve a Domain with domainId
+router.get('/:name', domains.findOne);
 
-    // Delete a Domain with domainId
-    app.delete('/:domainId', domains.delete);
+// Update a Domain with domainId
+router.patch('/:domainId', domains.update);
 
-}
+// Delete a Domain with domainId
+router.delete('/:domainId', domains.delete);
+
+module.exports = router;
