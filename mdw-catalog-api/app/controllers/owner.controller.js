@@ -1,13 +1,21 @@
 const Owner = require('../models/owner.model');
-const { body } = require('express-validator/check');
+const { check, validationResult } = require('express-validator/check');
+
 // Create and Save a new Owner
-exports.create = (req, res, next) => {
-    // Validate request
+exports.createOwner = (req, res, next) => {
+
+    console.log("Req:" + req);
     if (!req.body) {
         return res.status(400).send({
-            message: "Owner content can not be empty"
+            message: "Body content can't be empty"
         });
     }
+    //Validation result
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json(errors.array());
+    };
+
     // Create a Owner
     const owner = new Owner({
         username: req.body.username,
@@ -20,7 +28,7 @@ exports.create = (req, res, next) => {
     // Save Owner in db
     owner.save()
         .then(data => {
-            res.send(data);
+            res.status(201).send(data);
         }).catch(err => {
             //Check validation errors
             if (err.name === 'ValidationError') {
@@ -32,10 +40,11 @@ exports.create = (req, res, next) => {
                     message: err.message || "Some error ocurred while creating Owner."
                 });
         });
+
 };
 
 // Retrieve and return all owners from db
-exports.findAll = (req, res,next) => {
+exports.findAll = (req, res, next) => {
     Owner.find()
         .then(owners => {
             res.send(owners);
@@ -47,7 +56,7 @@ exports.findAll = (req, res,next) => {
 };
 
 // Find a single Owner with Owner id
-exports.findOne = (req, res,next) => {
+exports.findOne = (req, res, next) => {
     Owner.findById(req.params.ownerId)
         .then(owner => {
             if (!owner) {
@@ -124,16 +133,17 @@ exports.delete = (req, res, next) => {
         });
 };
 
-exports.validateOwner = (method) => {
-    switch (method) {
-        case 'create': {
-            return [
-                body('username', "Username doesn't exists").exists().trim().escape(),
-                body('name', 'Name must be completed').exists().escape(),
-                body('email', 'Invalid email').isEmail().exists().normalizeEmail(),
-                body('isActive').optional().isIn([true, false])
-            ]
-        }
-    }
 
+const validationHandler = next => result => {
+    if (result.isEmpty()) return
+    if (!next)
+        throw new Error(
+            result.array().map(i => `'${i.param}' has ${i.msg}`).join(' ')
+        )
+    else
+        return next(
+            new Error(
+                result.array().map(i => `'${i.param}' has ${i.msg}`).join('')
+            )
+        )
 }

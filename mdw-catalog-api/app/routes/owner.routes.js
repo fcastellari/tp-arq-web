@@ -1,10 +1,9 @@
 const router = require('express').Router();
 const owners = require('../controllers/owner.controller');
-
+const v = require('../validations/owner.validations');
 
 //Create new Owner
-router.post('/', owners.validateOwner('create'), owners.create);
-
+router.post('/', v.validateOwner('create'), owners.createOwner);
 //Retrieve all Owners
 router.get('/', owners.findAll);
 
