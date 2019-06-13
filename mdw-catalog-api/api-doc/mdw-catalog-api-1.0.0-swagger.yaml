@@ -1,0 +1,417 @@
+openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/fcastellari/mdw-catalog-api/1.0.0
+
+info:
+  description: MDW Services Catalog API
+  version: "1.0.0"
+  title: MDW Services Catalog
+  contact:
+    email: federico.castellari@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: owners
+    description: Manage Process Owners
+  - name: services
+    description: Access MDW Services Info
+  - name: domains
+    description: Operations about Domains
+    
+paths:
+  /owners:
+    get:
+      tags:
+        - owners
+      summary: search for owners
+      description: Get all owners
+      parameters: []
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Owner'
+        '500':
+          description: internal error while retrieving owners
+    post:
+      tags:
+        - owners
+      summary: add a new Owner
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Owner'
+      responses:
+        '201':
+          description: Owner created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+        '400':
+          description: Owner data validation error
+        '500':
+          description: internal error while creating Owner
+  '/owners/:ownerId':
+    get:
+      tags:
+        - owners
+      summary: get owners by ownerId
+      parameters:
+        - name: ownerId
+          in: path
+          required: true
+          description: ownerId that needs to be fetched
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+        '404':
+          description: ownerId does not exist
+        '500':
+          description: internal error while retrieving Owner
+    patch:
+      tags:
+        - owners
+      summary: updates an owner
+      parameters:
+        - name: ownerId
+          in: path
+          required: true
+          description: owner id that needs to be fetched
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Owner updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Owner'
+        '400':
+          description: Owner data validation error
+        '404':
+          description: serviceId does not exist
+        '500':
+          description: internal error while updating Owner
+  /services:
+    get:
+      tags:
+        - services
+      summary: search for all services
+      parameters: []
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
+        '500':
+          description: internal error  while retrieving Service
+    post:
+      tags:
+        - services
+      summary: add a new Service
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+      responses:
+        '201':
+          description: Service created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '400':
+          description: Service data validation error
+          
+  '/services/:serviceId':
+    get:
+      tags:
+        - services
+      summary: get services by Service id
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          description: Service ID that needs to be fetched
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '404':
+          description: serviceId does not exist
+        '500':
+          description: internal error while retrieving Service 
+    patch:
+      tags:
+        - services
+      summary: updates a service
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          description: Service ID that needs to be fetched
+          schema:
+            type: string
+      responses:
+        '200':
+          description: service updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+        '400':
+          description: Service data validation error
+        '404':
+          description: serviceId does not exist
+        '500':
+          description: internal error while updating Service
+          
+  /domains:
+    get:
+      tags:
+        - domains
+      summary: search for domains
+      parameters: []
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Service'
+        '500':
+          description: internal error  while retrieving Service
+    post:
+      tags:
+        - domains
+      summary: add a Domain
+      description: Adds domain to the system
+      responses:
+        '201':
+          description: domain created
+        '400':
+          description: Domain data validation error
+        '500':
+          description: internal error  while creating Domain
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Domain'
+        description: domain to be added
+  '/domains/:domainId':
+    get:
+      tags:
+        - domains
+      summary: get Domain by id
+      parameters:
+        - name: domainId
+          in: path
+          required: true
+          description: domainId that needs to be fetched
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
+        '404':
+          description: Domain does not exist
+        '500':
+          description: internal error  while retrieving Domain
+    patch:
+      tags:
+        - domains
+      summary: update Domain
+      parameters:
+        - name: domainId
+          in: path
+          required: true
+          description: domainId that needs to be updated
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Domain updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
+        '400':
+          description: Domain data validation error
+        '404':
+          description: domainId does not exist      
+        '500':
+          description: internal error  while updating Service
+components:
+  schemas:
+    Service:
+      type: object
+      required:
+        - serviceCode
+        - project
+        - domain
+        - product
+        - severity
+        - serviceName
+        - country
+        - businessUnit
+        - sourceSystem
+        - sourceObjectType
+        - targetSystem
+        - targetObjectType
+        - owner
+        - type
+        - description
+
+      properties:
+        serviceCode:
+          type: string
+          example: INT1234
+        project:
+          type: string
+          example: VUC
+        type:
+          type: string
+          example: OSB
+          description: Service Technology
+          enum:
+          - BIZTALK
+          - ODI
+          - OSB
+        serviceName:
+          type: string
+          description: Called service
+          example: AltaModClientesSiebel
+        domain:
+          $ref: '#/components/schemas/Domain'
+        description:
+          type: string
+          description: Service description
+          example: Alta Modificacion Clientes en SIEBEL 
+        country:
+          type: string
+          example: AR
+          description: Country
+          enum:
+          - AR
+          - BR
+          - CL
+          - PE
+          - REG
+        businessUnit:
+          type: string
+          example: SM
+          description: Business Unit
+          enum:
+          - BO
+          - CORP
+          - MDH
+          - SM
+          - TXD
+        sourceSystem:
+          type: string
+          description: Source System
+          example: Orquestador
+        sourceObjectType:
+          description: Source Object Type
+          type: string
+          example: SOAP
+        targetSystem:
+          type: string
+          description: Sistema destino de la peticion
+          example: SIEBEL
+        targetObjectType:
+          type: string
+          description: Tipo de objeto destino de la peticion
+          example: SOAP
+        schedule:
+          type: string
+          description: Schedule del servicio
+          example: Diariamente cada 15 minutos.
+        owner:
+          $ref: '#/components/schemas/Owner'
+        comments: 
+          type: string
+          example: Servicio Cyber Week
+          description: Comentarios
+        isActive:
+          type: boolean
+          description: Estado del servicio
+          example: true
+    Domain:
+      type: object
+      required:
+        - name
+        - adminConsole
+      properties:
+        name:
+          type: string
+          example: osbp_ar_domain
+        adminConsole:
+          type: string
+          format: url
+          example: 'g100603sv123:7301/console'
+        isActive:
+          type: boolean
+          default: true
+        
+    Owner:
+      type: object
+      required:
+        - username
+        - name
+        - email
+        - phoneNumber
+      properties:
+        username:
+         type: string
+         description: AD username
+         example: JuPerez
+        name:
+          type: string
+          description: Full Name of Process Owner
+          example: Juan Perez
+        email:
+          type: string
+          format: mail
+          description: Corporative email
+          example: juan.perez@empresa.com.ar
+        phoneNumber:
+          type: string
+          description: Phone number
+          example: +5491112345678
+        isActive:
+          type: boolean
+          description: Indicates if Owner is active or not
+          default: true

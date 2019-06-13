@@ -21,7 +21,7 @@ const Types = Object.freeze({
 const BusinessUnit = Object.freeze({
     MEJORAMIENTODEHOGAR: 'MDH',
     TIENDASXDEPARTAMENTO: 'TXD',
-    REGIONAL: 'REG',
+    CORPORATIVO: 'CORP',
     BACKOFFICE: 'BO',
     SUPERMERCADOS: 'SM'
 });

@@ -1,17 +1,10 @@
 # MDW Services Catalog
 MDW Services Catalog API
 
-## Version: 0.0.1 demo
-**Nombre del grupo:** Integracion Regional
-
-**Integrantes:** Federico Pedro Castellari
+## Version: 1.0.0
 
 **Contact information:**  
-federico.castellari@gmail.com
-
-**Negocio:** La API es para consultar servicios disponibles y algunas de sus configuraciones del área de Integracion Middleware
-
-**Swagger:** https://app.swaggerhub.com/apis-docs/fcastellari/mdw-catalog-api/1.0.0
+federico.castellari@gmail.com  
 
 **License:** [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
