@@ -1,12 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const helmet = require('helmet');
+//const helmet = require('helmet');
 const morgan = require('morgan');
 const serviceRoutes = require('./app/routes/service.routes');
 const ownerRoutes = require('./app/routes/owner.routes');
 // create express app
 const app = express();
-app.use(helmet());
+//app.use(helmet());
 const router = express.Router();
 
 // DB

@@ -6,7 +6,7 @@ const OwnerSchema = mongoose.Schema({
     name: {type: String, required: true},
     email: {type: String, required: true, unique: true},
     phoneNumber: {type: String, required: true, unique: true},
-    isActive: {type: Boolean, default: true}
+    isActive: {type: Boolean}
 },
 {
     timestamps: true

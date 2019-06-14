@@ -18,7 +18,7 @@ exports.create = (req, res, next) => {
     // Save Domain in db
     domain.save()
         .then(data => {
-            res.send(data);
+            res.status(201).send(data);
         }).catch(err => {
             console.log("Error: " + err.status + " | " + err)
             //Check validation errors

@@ -6,6 +6,6 @@ router.use('/domains', require('./domain.routes'));
 router.use('/owners', require('./owner.routes'));
 
 // /api/services
-router.use('services', require('./service.routes'));
+router.use('/services', require('./service.routes'));
 
 module.exports = router;
